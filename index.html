@@ -14,20 +14,31 @@
         <script src="static/framework/bootstrap/js/bootstrap-slider.js"></script>
 
         <script src="simulator.js"></script> 
+	    <script src="static/aplication/js/objects.js"></script> 
+	    <script src="static/aplication/js/utils.js"></script> 
+        <script src="static/aplication/js/main.js"></script>
 	</head>
-	<body>
-		<div><span>Ants:</span><span id="ant_count">0</span></div>
-		<div><span>Gatherers:</span><span id="gatherer_count">0</span></div>
-		<div><span>Queens:</span><span id="queen_count">0</span></div>
-		<div><span>Food:</span><span id="food_count">0</span></div>
-		
-		<div><button id="add_gatherer">Create Gatherer</button></div>
-		<div><button id="start">Start</button><button id="stop">Stop</button></div>
-		<div><button id="speed_up">+speed</button><button id="slow_down">-speed</button></div>
 
-		<canvas id="myCanvas" width="2400" height="700"
-		style="border:1px solid #000000;">
-		</canvas>
+	<body>
+		<div id="main">
+			<div><span>Ants:</span><span data-bind="text:ant_count()"></span></div>
+			<div><span>Gatherers:</span><span data-bind="text:gatherer_count"></span></div>
+			<div><span>Queens:</span><span data-bind="text:queens"></span></div>
+			<div><span>Food:</span><span data-bind="text:food"></span></div>
+			
+<!-- 			<div><button id="add_gatherer">Create Gatherer</button></div>
+			<div><button id="speed_up">+speed</button><button id="slow_down">-speed</button></div> -->
+
+			<div><button id="start">Start</button><button id="stop">Stop</button></div>
+			<div>
+				<button id="add_queen" data-bind="click: function(){add_queen()}">Add Queen (1000)</button>
+				<button id="add_ant" data-bind="click: function(){add_ant()}">Add Ant</button>
+				<button id="create_gatherer" data-bind="click: function(){create_gatherer()}">Create Worker</button>
+			</div>
+			<canvas id="myCanvas" width="2400" height="700"
+			style="border:1px solid #000000;">
+			</canvas>
+		</div>
 
 	</body>
 </html>
