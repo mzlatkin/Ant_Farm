@@ -14,10 +14,10 @@ function game_model(obj)
 	//worker totals
 	obj.ant_count = ko.observable(1);
 	obj.queens = ko.observable(1);
-	obj.gatherer_count = ko.observable(1);
+	obj.gatherer_count = ko.observable(5);
 
 	//amount of food eaten by each individual
-	obj.queen_hunger = ko.observable(2);
+	obj.queen_hunger = ko.observable(10);
 	obj.ant_hunger = ko.observable(1);
 	obj.gatherer_hunger = ko.observable(2);
 	
@@ -28,10 +28,10 @@ function game_model(obj)
 
 	//queens birthrate (the queen creates queen_birthrate*queen_birthrate_multiplier amounts of ants per tick)
 	obj.queen_birthrate = ko.observable(2);
-	obj.queen_birthrate_multiplier = ko.observable(20);
+	obj.queen_birthrate_multiplier = ko.observable(10);
 
 	//gatherers gathering rate/total food gathered (obj.gatherer_collection()*obj.gatherer_collection_multiplier())
-	obj.gatherer_collection = ko.observable(30);
+	obj.gatherer_collection = ko.observable(3);
 	obj.gatherer_collection_multiplier = ko.observable(0); //not used for now
 
 	//total food collected per tick 
@@ -69,6 +69,7 @@ function game_model(obj)
 			obj.ant_count(obj.ant_count()-obj.queen_total_hunger());
 			// ant_count = parseInt(ant_count*0.9)
 		}
+		obj.update_graph()
 	}
 
 
