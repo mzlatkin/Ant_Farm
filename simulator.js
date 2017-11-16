@@ -13,7 +13,7 @@ function game_model(obj)
 
 	//worker totals
 	obj.ant_count = ko.observable(1);
-	obj.queens = ko.observable(10);
+	obj.queens = ko.observable(1);
 	obj.gatherer_count = ko.observable(1);
 
 	//amount of food eaten by each individual
@@ -53,7 +53,7 @@ function game_model(obj)
 
 	obj.update_population = function()
 	{
-		obj.update_food(obj.obj.total_food_collected());
+		obj.update_food(obj.total_food_collected());
 
 		if(obj.food()>=obj.total_hunger()){
 			if(obj.food()>=obj.queen_total_hunger())
