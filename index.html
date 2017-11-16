@@ -1,0 +1,33 @@
+<html lang="en">
+	<head>       
+		<title>Simulator</title>
+		<meta content="text/html; charset=utf8">
+		<!-- Bootstrap -->
+        <link href="static/framework/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="static/framework/bootstrap/css/slider.css" rel="stylesheet">
+		
+		<script src="static/framework/jquery/jquery-2.1.4.min.js"></script>
+	    <script src="static/framework/knockout/knockout-3.3.0.js"></script>
+	    <script src="static/framework/knockout/knockout.mapping.min.js"></script>
+
+		<script src="static/framework/bootstrap/js/bootstrap.min.js"></script>
+        <script src="static/framework/bootstrap/js/bootstrap-slider.js"></script>
+
+        <script src="simulator.js"></script> 
+	</head>
+	<body>
+		<div><span>Ants:</span><span id="ant_count">0</span></div>
+		<div><span>Gatherers:</span><span id="gatherer_count">0</span></div>
+		<div><span>Queens:</span><span id="queen_count">0</span></div>
+		<div><span>Food:</span><span id="food_count">0</span></div>
+		
+		<div><button id="add_gatherer">Create Gatherer</button></div>
+		<div><button id="start">Start</button><button id="stop">Stop</button></div>
+		<div><button id="speed_up">+speed</button><button id="slow_down">-speed</button></div>
+
+		<canvas id="myCanvas" width="2400" height="700"
+		style="border:1px solid #000000;">
+		</canvas>
+
+	</body>
+</html>
