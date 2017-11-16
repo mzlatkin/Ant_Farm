@@ -21,10 +21,11 @@
 
 	<body>
 		<div id="main">
-			<div><span>Ants:</span><span data-bind="text:ant_count()"></span></div>
-			<div><span>Gatherers:</span><span data-bind="text:gatherer_count"></span></div>
-			<div><span>Queens:</span><span data-bind="text:queens"></span></div>
-			<div><span>Food:</span><span data-bind="text:food"></span></div>
+			<div><span>Ants:</span><span data-bind="text:' '+ant_count()"></span><span data-bind="text:', hunger: ('+ant_total_hunger()+') '"></span></div>
+			<div><span>Gatherers:</span><span data-bind="text:' '+gatherer_count()"></span><span data-bind="text:', food collected: '+total_food_collected()+' (hunger: '+gatherer_total_hunger()+') '"></span></div>
+			<div><span>Queens:</span><span data-bind="text:' '+queens()"></span><span data-bind="text:', hunger: ('+queen_total_hunger()+') '"></div>
+			<div><span>Food:</span><span data-bind="text:' '+food()"></span></div>
+			<div><span>Net Food:</span><span data-bind="text:'  '+total_food_collected()-total_hunger()"></span></div>
 			
 <!-- 			<div><button id="add_gatherer">Create Gatherer</button></div>
 			<div><button id="speed_up">+speed</button><button id="slow_down">-speed</button></div> -->
@@ -35,7 +36,8 @@
 				<button id="add_ant" data-bind="click: function(){add_ant()}">Add Ant</button>
 				<button id="create_gatherer" data-bind="click: function(){create_gatherer()}">Create Worker</button>
 			</div>
-			<canvas id="myCanvas" width="2400" height="700"
+			<div><span>red:Ant population</span></div><div><span>black:food</span></div>
+			<canvas id="myCanvas" width="2400" height="500"
 			style="border:1px solid #000000;">
 			</canvas>
 		</div>
