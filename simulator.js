@@ -51,41 +51,60 @@ function game_model(obj)
 	obj.previous_food = ko.observable(0);
 	obj.previous_ant_count = ko.observable(0);
 
+	obj.update_population = function()
+	{
+		obj.update_food(obj.obj.total_food_collected());
 
-
-	obj.update_population = function(ant_gain)
-	{		
-		//update total food with the net food
-		change_in_food = (obj.total_food_collected()-obj.total_hunger())
-		obj.update_food(change_in_food);
-		
-
-		//I want to make it so that as total amout of hunger rises the more ants die thereby lowering the total hunger
-
-		if (obj.food() < 0)
-		{
-			var ant_total_after_net_change = obj.ant_count()+(obj.food());
-
-			if (ant_total_after_net_change<=0)
-				ant_total_after_net_change = 0
-
-			obj.ant_count(ant_total_after_net_change);
-
-			obj.update_food(parseInt(ant_total_after_net_change/2));
-
-			// obj.total_hunger((obj.queens()*obj.queen_hunger())+(obj.ant_hunger()*obj.ant_count())+(obj.gatherer_hunger()*obj.gatherer_count()));
+		if(obj.food()>=obj.total_hunger()){
+			if(obj.food()>=obj.queen_total_hunger())
+			{
+				obj.queen_gives_birth();
+			}
+			obj.update_food(obj.ant_total_hunger()*(-1));
+			obj.update_food(obj.gatherer_total_hunger()*(-1));
 		}
-		if (change_in_food>=0)
+		else
 		{
 			obj.queen_gives_birth();
+			obj.ant_count(obj.ant_count()-obj.queen_total_hunger());
+			// ant_count = parseInt(ant_count*0.9)
 		}
-
-		// obj.queen_total_hunger(obj.queens()*obj.queen_hunger());
-		// obj.ant_total_hunger(obj.ant_hunger()*obj.ant_count());
-		// obj.gatherer_total_hunger(obj.gatherer_hunger()*obj.gatherer_count());
-
-		obj.update_graph()
 	}
+
+
+	// obj.update_population = function(ant_gain)
+	// {		
+	// 	//update total food with the net food
+	// 	change_in_food = (obj.total_food_collected()-obj.total_hunger())
+	// 	obj.update_food(change_in_food);
+		
+
+	// 	//I want to make it so that as total amout of hunger rises the more ants die thereby lowering the total hunger
+
+	// 	if (obj.food() < 0)
+	// 	{
+	// 		var ant_total_after_net_change = obj.ant_count()+(obj.food());
+
+	// 		if (ant_total_after_net_change<=0)
+	// 			ant_total_after_net_change = 0
+
+	// 		obj.ant_count(ant_total_after_net_change);
+
+	// 		obj.update_food(parseInt(ant_total_after_net_change/2));
+
+	// 		// obj.total_hunger((obj.queens()*obj.queen_hunger())+(obj.ant_hunger()*obj.ant_count())+(obj.gatherer_hunger()*obj.gatherer_count()));
+	// 	}
+	// 	if (change_in_food>=0)
+	// 	{
+	// 		obj.queen_gives_birth();
+	// 	}
+
+	// 	// obj.queen_total_hunger(obj.queens()*obj.queen_hunger());
+	// 	// obj.ant_total_hunger(obj.ant_hunger()*obj.ant_count());
+	// 	// obj.gatherer_total_hunger(obj.gatherer_hunger()*obj.gatherer_count());
+
+	// 	obj.update_graph()
+	// }
 
 	obj.queen_gives_birth = function()
 	{
