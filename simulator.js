@@ -168,7 +168,6 @@ function game_model(obj)
 	obj.instantiate_buttons = function(){
 		var start_button = $("#start");
 		start_button[0].onclick = function(){
-			// console.log($('speed').inner)
 	 		update_population_interval = setInterval(function(){ obj.update_population() },obj.update_time());
 	 	};
 

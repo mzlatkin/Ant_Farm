@@ -32,7 +32,7 @@
 <!-- 			<div><button id="add_gatherer">Create Gatherer</button></div>
 			<div><button id="speed_up">+speed</button><button id="slow_down">-speed</button></div> -->
 
-			<div><button id="start">Start</button><input id="speed" type="text"><button id="stop">Stop</button></div>
+			<div><button id="start">Start</button><input id="speed" data-bind="value:update_time, valueUpdate: 'keypress'" type="text"><button id="stop">Stop</button></div>
 			<div>
 				<button id="add_queen" data-bind="click: function(){add_queen()}">Add Queen (1000)</button>
 				<button id="add_ant" data-bind="click: function(){add_ant()}">Add Ant</button>
