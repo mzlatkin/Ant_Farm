@@ -21,22 +21,25 @@
 
 	<body>
 		<div id="main">
-			<div><span>Ants:</span><span data-bind="text:' '+ant_count()"></span><span data-bind="text:', hunger: ('+ant_total_hunger()+') '"></span></div>
-			<div><span>Gatherers:</span><span data-bind="text:' '+gatherer_count()"></span><span data-bind="text:', food collected: '+total_food_collected()+' (hunger: '+gatherer_total_hunger()+') '"></span></div>
+			<div><span>ants:</span><span data-bind="text:' '+ant_count()"></span><span data-bind="text:', hunger: ('+ant_total_hunger()+') '"></span></div>
+			<div><span>drones:</span><span data-bind="text:' '+drone_count()"></span><span data-bind="text:', hunger: ('+drone_total_hunger()+') '"></span></div>
 			<div><span>Queens:</span><span data-bind="text:' '+queens()"></span><span data-bind="text:', hunger: ('+queen_total_hunger()+') '"></div>
 			<div><span>Food:</span><span data-bind="text:' '+food()"></span></div>
 			<div><span>Net Food:</span><span data-bind="text:'  '+total_food_collected()-total_hunger()"></span></div>
+			<div><span data-bind="text:'food collected: '+total_food_collected()"></span></div>
+			<div><span data-bind="text:'total hunger: '+total_hunger()"></span></div>
 			
 <!-- 			<div><button id="add_gatherer">Create Gatherer</button></div>
 			<div><button id="speed_up">+speed</button><button id="slow_down">-speed</button></div> -->
 
-			<div><button id="start">Start</button><button id="stop">Stop</button></div>
+			<div><button id="start">Start</button><input id="speed" type="text"><button id="stop">Stop</button></div>
 			<div>
 				<button id="add_queen" data-bind="click: function(){add_queen()}">Add Queen (1000)</button>
 				<button id="add_ant" data-bind="click: function(){add_ant()}">Add Ant</button>
-				<button id="create_gatherer" data-bind="click: function(){create_gatherer()}">Create Worker</button>
+				<button id="create_drone" data-bind="click: function(){create_drone()}">Create Drone</button>
+				<button data-bind="click: function(){death_to_the_ants(50)}">death to the ants(50)</button>
 			</div>
-			<div><span>red:Ant population</span></div><div><span>black:food</span></div>
+			<div><span>red:drone population</span></div><div><span>black:food</span></div>
 			<canvas id="myCanvas" width="2400" height="500"
 			style="border:1px solid #000000;">
 			</canvas>
