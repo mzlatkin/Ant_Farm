@@ -12,9 +12,9 @@ function game_model(obj)
 	obj.food = ko.observable(8);
 
 	//worker totals
-	obj.ant_count = ko.observable(0);
+	obj.ant_count = ko.observable(800);
 	obj.drone_count = ko.observable(1000);
-	obj.queens = ko.observable(10);
+	obj.queen_count = ko.observable(10);
 	// obj.drone_count = ko.observable(1);
 
 	//amount of food eaten by each individual
@@ -23,11 +23,11 @@ function game_model(obj)
 	obj.ant_hunger = ko.observable(1);
 	
 	//total amout of food eaten by a class
-	obj.queen_total_hunger = ko.computed(function() {return obj.queens()*obj.queen_hunger();}, this);
+	obj.queen_total_hunger = ko.computed(function() {return obj.queen_count()*obj.queen_hunger();}, this);
 	obj.drone_total_hunger = ko.computed(function() {return obj.drone_hunger()*obj.drone_count();}, this);
 	obj.ant_total_hunger = ko.computed(function() {return obj.ant_hunger()*obj.ant_count();}, this);
 
-	//queens birthrate (the queen creates queen_birthrate*queen_birthrate_multiplier amounts of drones per tick)
+	//queen birthrate (the queen creates queen_birthrate*queen_birthrate_multiplier amounts of drones per tick)
 	obj.queen_birthrate = ko.observable(2);
 	obj.queen_birthrate_multiplier = ko.observable(1);
 
@@ -39,7 +39,7 @@ function game_model(obj)
 	obj.total_food_collected = ko.computed(function() {return obj.drone_count()*obj.drone_food_collection();}, this);
 
 	//total hunger subracted from food per tick
-	obj.total_hunger = ko.computed(function() {return (obj.queens()*obj.queen_hunger())+(obj.drone_hunger()*obj.drone_count())+(obj.ant_hunger()*obj.ant_count());}, this);
+	obj.total_hunger = ko.computed(function() {return (obj.queen_count()*obj.queen_hunger())+(obj.drone_hunger()*obj.drone_count())+(obj.ant_hunger()*obj.ant_count());}, this);
 
 	//food cost of unit
 	obj.queen_cost = ko.observable(1000);
@@ -53,8 +53,12 @@ function game_model(obj)
 	obj.previous_food = ko.observable(0);
 	obj.previous_drone_count = ko.observable(0);
 
+	obj.food_array = ko.observableArray();
+
 	obj.update_population = function()
 	{
+
+
 		//console.log("------------")
 		
 		//gather and feed colony
@@ -67,10 +71,8 @@ function game_model(obj)
 
 		if(obj.food()<0)
 		{
-			//console.log("ants are dieing")
 			var dead_ants = obj.food()
 			obj.ants_die(dead_ants)
-			//console.log("done killing ants")
 
 		}
 		if((obj.food()+net_food_change)>=obj.queen_hunger())
@@ -102,7 +104,7 @@ function game_model(obj)
 
 	obj.queen_gives_birth = function(net_food_change)
 	{
-		ants_to_poop_out = obj.queens()*(obj.queen_birthrate())
+		ants_to_poop_out = obj.queen_count()*(obj.queen_birthrate())
 
 		if(net_food_change>=obj.queen_hunger())
 		{
@@ -114,12 +116,17 @@ function game_model(obj)
 		// console.log(net_food_change);
 		if(net_food_change<0)
 		{
-			brood_factor = (-net_food_change/(obj.queen_hunger()*10))
-			if (brood_factor<1)
-			{
-				ants_to_poop_out = parseInt(ants_to_poop_out*brood_factor);
-			}
+			brood_factor = (-net_food_change/(obj.queen_hunger()*obj.queen_count()*10))
 		}
+		else{
+			brood_factor = (obj.food()/(obj.queen_hunger()*obj.queen_count()*10))
+		}
+		if (brood_factor>1)
+		{
+			brood_factor=1;
+		}
+		ants_to_poop_out = parseInt(ants_to_poop_out*brood_factor);
+
 
 		//console.log("queen gives birth to "+ants_to_poop_out+" ants");
 		obj.ant_count(obj.ant_count()+ants_to_poop_out);
@@ -142,7 +149,7 @@ function game_model(obj)
 		{
 			console.log(obj.queen_cost())
 			obj.ant_count(obj.ant_count()-obj.queen_cost());
-			obj.queens(obj.queens()+1);
+			obj.queen_count(obj.queen_count()+1);
 		}
 		obj.update_population();
 	}
@@ -179,8 +186,8 @@ function game_model(obj)
 
 	obj.update_graph = function()
 	{
-		obj.total_population = ko.observable(obj.queens()+obj.drone_count()+obj.ant_count())
-		// obj.total_hunger = ko.observable(obj.queens()+obj.drone_count()+obj.drone_count())
+		obj.total_population = ko.observable(obj.queen_count()+obj.drone_count()+obj.ant_count())
+		// obj.total_hunger = ko.observable(obj.queen_count()+obj.drone_count()+obj.drone_count())
 
 		// //console.log(obj.total_population());
 		drone_count = parseInt(500-obj.total_population()/8)
