@@ -13,8 +13,8 @@ function game_model(obj)
 
 	//worker totals
 	obj.ant_count = ko.observable(800);
-	obj.drone_count = ko.observable(1000);
-	obj.queen_count = ko.observable(10);
+	obj.drone_count = ko.observable(20);
+	obj.queen_count = ko.observable(0);
 	// obj.drone_count = ko.observable(1);
 
 	//amount of food eaten by each individual
@@ -58,21 +58,25 @@ function game_model(obj)
 	// obj.constant_k = ko.observable();
 
 
-	obj.population_at_time = ko.observable(800);
+	obj.population_at_time = ko.observable(200);
 
-	obj.carrying_capacity_k = ko.observable(400);
+	obj.carrying_capacity_k = ko.observable(0);
 	obj.growth_percent = ko.observable(0.05);
 
 	obj.update_population = function()
 	{
-		pop = obj.population_at_time()
+		pop = obj.ant_count()
 		growth_percent = obj.growth_percent()
-		carrying_capacity_k = obj.carrying_capacity_k()
+		
+		// obj.carrying_capacity_k(obj.carrying_capacity_k() + obj.total_food_collected());
+
+		carrying_capacity_k = obj.carrying_capacity_k();
 
 		pop = pop+growth_percent*(1-pop/carrying_capacity_k)*pop
-		obj.population_at_time(pop);
+		obj.ant_count(pop);
 
-		console.log(obj.population_at_time());
+		console.log(obj.ant_count());
+		console.log(carrying_capacity_k);
 		obj.update_graph()
 	}
 
@@ -121,7 +125,7 @@ function game_model(obj)
 
 	obj.death_to_the_ants = function(dead_ants)
 	{
-		obj.ant_count(obj.ant_count()-dead_ants);
+		obj.population_at_time(obj.population_at_time()-dead_ants);
 	}
 
 
@@ -177,7 +181,7 @@ function game_model(obj)
 		// obj.total_hunger = ko.observable(obj.queen_count()+obj.drone_count()+obj.drone_count())
 
 		// //console.log(obj.total_population());
-		drone_count = parseInt(500-obj.population_at_time()/2)
+		drone_count = parseInt(500-obj.ant_count()/2)
 		// food_count = parseInt(500-obj.total_food_collected()/8)
 		obj.graph_time(obj.graph_time()+1);
 		ctx.strokeStyle="#000000";
