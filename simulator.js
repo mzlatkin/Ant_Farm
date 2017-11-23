@@ -53,39 +53,26 @@ function game_model(obj)
 	obj.previous_food = ko.observable(0);
 	obj.previous_drone_count = ko.observable(0);
 
-	obj.food_array = ko.observableArray();
+	obj.limiting_value = ko.observable(8000);
+	obj.constant_c = ko.observable(0.5);
+	// obj.constant_k = ko.observable();
+
+
+	obj.population_at_time = ko.observable(800);
+
+	obj.carrying_capacity_k = ko.observable(400);
+	obj.growth_percent = ko.observable(0.05);
 
 	obj.update_population = function()
 	{
+		pop = obj.population_at_time()
+		growth_percent = obj.growth_percent()
+		carrying_capacity_k = obj.carrying_capacity_k()
 
+		pop = pop+growth_percent*(1-pop/carrying_capacity_k)*pop
+		obj.population_at_time(pop);
 
-		//console.log("------------")
-		
-		//gather and feed colony
-		random_food_collected = obj.total_food_collected()
-		obj.feed_colony(random_food_collected-obj.total_hunger());
-
-		var net_food_change = obj.total_food_collected()-obj.total_hunger();
-		//console.log("food: "+obj.food());
-		//console.log("net_food_change: "+net_food_change);
-
-		if(obj.food()<0)
-		{
-			var dead_ants = obj.food()
-			obj.ants_die(dead_ants)
-
-		}
-		if((obj.food()+net_food_change)>=obj.queen_hunger())
-		{
-			obj.queen_gives_birth(net_food_change);
-		}
-
-		if(obj.ant_count()<0)
-		{
-			alert("you lose");
-			obj.ant_count(0);
-		}
-		//console.log("ants: "+obj.ant_count());
+		console.log(obj.population_at_time());
 		obj.update_graph()
 	}
 
@@ -186,12 +173,12 @@ function game_model(obj)
 
 	obj.update_graph = function()
 	{
-		obj.total_population = ko.observable(obj.queen_count()+obj.drone_count()+obj.ant_count())
+		// obj.total_population = ko.observable(obj.queen_count()+obj.drone_count()+obj.ant_count())
 		// obj.total_hunger = ko.observable(obj.queen_count()+obj.drone_count()+obj.drone_count())
 
 		// //console.log(obj.total_population());
-		drone_count = parseInt(500-obj.total_population()/8)
-		food_count = parseInt(500-obj.total_food_collected()/8)
+		drone_count = parseInt(500-obj.population_at_time()/2)
+		// food_count = parseInt(500-obj.total_food_collected()/8)
 		obj.graph_time(obj.graph_time()+1);
 		ctx.strokeStyle="#000000";
 
@@ -206,13 +193,13 @@ function game_model(obj)
 		ctx.stroke();
 
 		// // Draw the green line.
-		ctx.beginPath();
-		ctx.moveTo(obj.graph_time()-1,obj.previous_food());
-		ctx.strokeStyle = '#000';
-		ctx.lineTo(obj.graph_time(),food_count);
-		ctx.stroke();
+		// ctx.beginPath();
+		// ctx.moveTo(obj.graph_time()-1,obj.previous_food());
+		// ctx.strokeStyle = '#000';
+		// ctx.lineTo(obj.graph_time(),food_count);
+		// ctx.stroke();
 		
-		obj.previous_food(food_count);
+		// obj.previous_food(food_count);
 		obj.previous_drone_count(drone_count);
 	}
 
